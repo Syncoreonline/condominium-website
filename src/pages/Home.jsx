@@ -39,7 +39,8 @@ export function Home() {
             case it is due in the year 2028.
           </p>
           <p>
-            Our Resident Portal is managed by{" "}
+            Our{" "}
+            <Link to="/resident-portal">Resident Portal</Link> is managed by{" "}
             <a href="https://vestaflo.com" target="_blank" rel="noreferrer">
               VestaFlo
             </a>
