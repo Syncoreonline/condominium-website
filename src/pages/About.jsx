@@ -10,7 +10,6 @@ const sessionKey = "ocean-park-resident-portal"
 export function About() {
   usePageTitle(`Resident Portal · ${building.name}`)
   const [categories, setCategories] = useState(documentCategories.map((category) => ({ ...category, files: [] })))
-  const [active, setActive] = useState({})
   const [status, setStatus] = useState("loading")
   const [session, setSession] = useState(() => readPortalSession())
   const [email, setEmail] = useState("")
@@ -164,45 +163,22 @@ export function About() {
 
         {step === "open" && status !== "loading" && categories.map((category) => {
           const files = category.files ?? []
-          const selected = files.find((file) => file.href === active[category.id]) ?? files[0]
           return (
             <article key={category.id} id={category.id} className="doc-group">
               <h3>{category.title}</h3>
               {files.length === 0 ? (
                 <p className="fine-print">Nothing posted in this category yet.</p>
               ) : (
-                <>
-                  <ul className="doc-list">
-                    {files.map((file) => (
-                      <li key={file.href}>
-                        <button
-                          type="button"
-                          className={selected?.href === file.href ? "text-button on" : "text-button"}
-                          aria-pressed={selected?.href === file.href}
-                          onClick={() => setActive((current) => ({ ...current, [category.id]: file.href }))}
-                        >
-                          {file.title}
-                        </button>
-                        <span>{postedOn(file.updated)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {selected && (
-                    <div className="doc-viewer">
-                      <div className="doc-viewer-bar">
-                        <p>{selected.title}</p>
-                        <a href={selected.href} target="_blank" rel="noreferrer">
-                          {selected.mimeType?.startsWith("image/") ? "Open image" : "Open PDF"}
-                        </a>
-                      </div>
-                      {selected.mimeType?.startsWith("image/") ? (
-                        <img src={selected.href} alt={selected.title} />
-                      ) : (
-                        <iframe title={selected.title} src={selected.href} />
-                      )}
-                    </div>
-                  )}
-                </>
+                <ul className="doc-list">
+                  {files.map((file) => (
+                    <li key={file.href}>
+                      <a href={file.href} target="_blank" rel="noreferrer">
+                        {file.title}
+                      </a>
+                      <span>{postedOn(file.updated)}</span>
+                    </li>
+                  ))}
+                </ul>
               )}
             </article>
           )
