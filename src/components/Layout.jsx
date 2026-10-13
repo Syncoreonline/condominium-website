@@ -82,7 +82,7 @@ export function Layout() {
               {building.desk}
             </p>
             <p>
-              Property Manager
+              <strong>Property Manager</strong>
               <br />
               Luis Tijerino
               <br />
@@ -91,7 +91,7 @@ export function Layout() {
               <a href="mailto:Oceanpark6450@breezelinebiz.net">Oceanpark6450@breezelinebiz.net</a>
             </p>
             <p>
-              Office Hours
+              <strong>Office Hours</strong>
               <br />
               Monday to Friday: 9 AM - 1:30 PM
             </p>
