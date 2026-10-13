@@ -38,6 +38,13 @@ export function Home() {
             stretch of Collins Avenue. Recertifications are due 30 years and every 10 years after year built. In this
             case it is due in the year 2028.
           </p>
+          <p>
+            Our Resident Portal is managed by{" "}
+            <a href="https://vestaflo.com" target="_blank" rel="noreferrer">
+              VestaFlo
+            </a>
+            .
+          </p>
           <div className="hero-actions">
             <Link className="btn" to="/inquire">
               Book a tour

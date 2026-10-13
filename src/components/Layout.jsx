@@ -113,6 +113,13 @@ export function Layout() {
             </p>
           </div>
         </div>
+        <p className="footer-note">
+          Website Resident Portal developed and maintained by{" "}
+          <a href="https://vestaflo.com" target="_blank" rel="noreferrer">
+            VestaFlo
+          </a>
+          .
+        </p>
       </footer>
     </>
   )
