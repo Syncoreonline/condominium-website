@@ -1,0 +1,17 @@
+export const documentCategories = [
+  { id: "insurance-2025-2026", title: "2025 - 2026 Insurance Policies" },
+  { id: "insurance-2026-2027", title: "2026 - 2027 Insurance Policies" },
+  { id: "budgets", title: "Annual Approved Budgets" },
+  { id: "committees", title: "Committees" },
+  { id: "financials-2025", title: "Financial Reports for 2025" },
+  { id: "financials-2026", title: "Financial Reports for 2026" },
+  { id: "governing", title: "Governing Documents" },
+  { id: "insurance", title: "Insurance Documents" },
+  { id: "minutes", title: "Meeting Minutes" },
+  { id: "move-in", title: "Ocean Park Move in Applications" },
+  { id: "inspections", title: "Property Inspections" },
+  { id: "reservations", title: "Reservation Forms" },
+  { id: "satisfaction", title: "Satisfaction Letter" },
+  { id: "special-assessment", title: "Special Assessment" },
+  { id: "unit-modification", title: "Unit Modification Form / Contractor" },
+]
