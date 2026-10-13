@@ -175,7 +175,6 @@ export function About() {
                       <a href={file.href} target="_blank" rel="noreferrer">
                         {file.title}
                       </a>
-                      <span>{postedOn(file.updated)}</span>
                     </li>
                   ))}
                 </ul>
@@ -211,7 +210,6 @@ function mergeDocuments(localCategories, remoteDocuments) {
         name: document.fileName || document.id,
         title: document.name || document.fileName || "Document",
         href: `https://app.vestaflo.com/api/public/compliance-documents/${encodeURIComponent(document.id)}/file?condominium=ocean-park`,
-        updated: document.postedAt,
         mimeType: document.mimeType || "application/pdf",
       }))
     return { ...category, files: [...remote, ...(local?.files ?? [])] }
@@ -226,11 +224,4 @@ function readPortalSession() {
     /* A missing or broken session just leaves the library closed. */
   }
   return null
-}
-
-function postedOn(value) {
-  if (!value) return ""
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return ""
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
 }
