@@ -35,7 +35,8 @@ export function Home() {
           <p className="lede">
             Ocean Park Condominium is a {building.stories}-story building at {building.address}, developed in{" "}
             {building.year}. {building.homes} residences, from studios to three bedrooms, in the quieter North Shore
-            stretch of Collins Avenue.
+            stretch of Collins Avenue. Recertifications are due 30 years and every 10 years after year built. In this
+            case it is due in the year 2028.
           </p>
           <div className="hero-actions">
             <Link className="btn" to="/inquire">
