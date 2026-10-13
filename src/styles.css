@@ -715,7 +715,7 @@ a.card:hover img { transform: scale(1.04); }
   margin-bottom: 1.8rem;
 }
 
-.footer a { text-decoration: none; }
+.footer a { text-decoration: none; overflow-wrap: anywhere; }
 .footer a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 
 .footer-note { max-width: 46rem; margin: 0; }

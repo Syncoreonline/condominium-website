@@ -81,6 +81,20 @@ export function Layout() {
               <br />
               {building.desk}
             </p>
+            <p>
+              Property Manager
+              <br />
+              Luis Tijerino
+              <br />
+              Main office: <a href="tel:+13058666541">(305) 866-6541</a>
+              <br />
+              <a href="mailto:Oceanpark6450@breezelinebiz.net">Oceanpark6450@breezelinebiz.net</a>
+            </p>
+            <p>
+              Office Hours
+              <br />
+              Monday to Friday: 9 AM - 1:30 PM
+            </p>
           </div>
           <div>
             <p className="eyebrow">Visit</p>
