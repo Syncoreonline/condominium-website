@@ -17,7 +17,7 @@ export function About() {
   const [step, setStep] = useState(() => (readPortalSession() ? "open" : "email"))
   const [notice, setNotice] = useState("")
   const [formError, setFormError] = useState("")
-  const [busy, setBusy] = useState(false)
+  const [busy, setBusy] = useState("")
 
   useEffect(() => {
     if (!session) return undefined
@@ -43,28 +43,37 @@ export function About() {
   }, [session])
 
   async function sendCode(event) {
-    event.preventDefault()
+    event?.preventDefault()
     setFormError("")
     setNotice("")
     const address = email.trim()
+    const renewing = step === "code"
     if (!address.includes("@")) {
       setFormError("Enter the email address the association has on file.")
       return
     }
-    setBusy(true)
+    setBusy("send")
     try {
       const response = await fetch(`${vestafloPortal}/code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: address, condominium: "ocean-park" }),
       })
+      const data = await response.json().catch(() => ({}))
+      if (data.error === "notOnFile") {
+        setStep("email")
+        setCode("")
+        setFormError("This email address is not on file as a tenant, owner, or association employee.")
+        return
+      }
       if (!response.ok) throw new Error("send")
+      setCode("")
       setStep("code")
-      setNotice("If this email belongs to a unit owner or an association employee, the code is on its way.")
+      setNotice(renewing ? "A new code was sent to that inbox." : "A code was sent to that inbox.")
     } catch {
       setFormError("The code could not be sent just now.")
     } finally {
-      setBusy(false)
+      setBusy("")
     }
   }
 
@@ -77,7 +86,7 @@ export function About() {
       setFormError("Enter the code from your email.")
       return
     }
-    setBusy(true)
+    setBusy("check")
     try {
       const response = await fetch(`${vestafloPortal}/verify`, {
         method: "POST",
@@ -94,7 +103,7 @@ export function About() {
     } catch {
       setFormError("That code is not right.")
     } finally {
-      setBusy(false)
+      setBusy("")
     }
   }
 
@@ -143,9 +152,14 @@ export function About() {
             )}
             {formError && <p className="form-error">{formError}</p>}
             {notice && <p className="fine-print">{notice}</p>}
-            <button className="btn" type="submit" disabled={busy}>
-              {busy ? (step === "code" ? "Checking" : "Sending") : step === "code" ? "Open the library" : "Send a code"}
+            <button className="btn" type="submit" disabled={Boolean(busy)}>
+              {busy === "check" ? "Checking" : busy === "send" && step !== "code" ? "Sending" : step === "code" ? "Open the library" : "Send a code"}
             </button>
+            {step === "code" && (
+              <button type="button" className="text-button" onClick={sendCode} disabled={Boolean(busy)}>
+                {busy === "send" ? "Sending" : "Request a new code"}
+              </button>
+            )}
           </form>
         )}
 

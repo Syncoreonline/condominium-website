@@ -71,10 +71,10 @@ export function Privacy() {
       </p>
       <p>
         To request a code, you enter an email address. The site asks the association’s VestaFlo desk system whether
-        that address belongs to an approved unit owner or an approved association employee for this building. If it
-        does, VestaFlo emails a one-time numeric code to that inbox. The code expires after 15 minutes and works
-        once. If the address is not on file, or if the account is not approved, no code is sent. The page uses the
-        same confirmation either way, so the form does not reveal whether an address is in the association’s records.
+        that address belongs to an approved tenant, owner, or association employee for this building. If it does,
+        VestaFlo emails a one-time numeric code to that inbox. The code expires after 15 minutes and works once. You
+        can request a new code from the same page. If the address is not on file, or if the account is not approved,
+        no code is sent, and the page says so.
       </p>
       <p>
         After you enter a valid code, this browser tab stores the email address and the time the library session
