@@ -153,7 +153,7 @@ export function About() {
             {formError && <p className="form-error">{formError}</p>}
             {notice && <p className="fine-print">{notice}</p>}
             <button className="btn" type="submit" disabled={Boolean(busy)}>
-              {busy === "check" ? "Checking" : busy === "send" && step !== "code" ? "Sending" : step === "code" ? "Open the library" : "Send a code"}
+              {busy === "check" ? "Checking" : busy === "send" && step !== "code" ? "Sending" : step === "code" ? "Open the library" : "Send Code"}
             </button>
             {step === "code" && (
               <button type="button" className="text-button" onClick={sendCode} disabled={Boolean(busy)}>
