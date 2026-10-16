@@ -32,7 +32,7 @@ export function Terms() {
 
       <h2>Building facts on the public pages</h2>
       <p>
-        Counts, sizes, and amenity descriptions are drawn from the association’s account of the building: 118
+        Counts, sizes, and amenity descriptions are drawn from the association’s account of the building: 119
         residences, 15 stories, developed in {building.year}, on the ocean in North Shore. Floor areas are ranges.
         Finishes, closets, washers, and smart-home features vary from residence to residence. A photograph of a
         kitchen or another interior shows the kind of finish used in the building. It is not a photograph of every

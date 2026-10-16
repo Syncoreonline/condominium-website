@@ -1,7 +1,7 @@
 export const building = {
   name: "Ocean Park Condominium",
   stories: 15,
-  homes: 118,
+  homes: 119,
   year: 1969,
   architect: "Sklar Isaac & Associates Architects Inc",
   address: "6450 Collins Avenue",

@@ -83,8 +83,8 @@ export function Building() {
         </div>
         <figure className="frame">
           <img
-            src="/images/kitchen3.jpg"
-            alt="A bright kitchen with a long island, white cabinets, and wood stools."
+            src="/images/residence-kitchen.jpg"
+            alt="A kitchen with white cabinets and a dark counter, opening to a living room and the ocean."
           />
           <figcaption>Finishes in the larger plans run to stone and a full kitchen</figcaption>
         </figure>
