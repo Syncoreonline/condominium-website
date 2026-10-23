@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { documentCategories } from "../documentCategories.js"
 import { building } from "../data.js"
+import { useLanguage } from "../i18n/Language.jsx"
 import { usePageTitle } from "../usePageTitle.js"
 
 const vestafloLibrary = "https://app.vestaflo.com/api/public/compliance-documents?condominium=ocean-park"
@@ -8,7 +9,9 @@ const vestafloPortal = "https://app.vestaflo.com/api/public/resident-portal"
 const sessionKey = "ocean-park-resident-portal"
 
 export function About() {
-  usePageTitle(`Resident Portal · ${building.name}`)
+  const { copy } = useLanguage()
+  const page = copy.portal
+  usePageTitle(`${page.pageTitle} · ${building.name}`)
   const [categories, setCategories] = useState(documentCategories.map((category) => ({ ...category, files: [] })))
   const [status, setStatus] = useState("loading")
   const [session, setSession] = useState(() => readPortalSession())
@@ -49,7 +52,7 @@ export function About() {
     const address = email.trim()
     const renewing = step === "code"
     if (!address.includes("@")) {
-      setFormError("Enter the email address the association has on file.")
+      setFormError("email")
       return
     }
     setBusy("send")
@@ -63,15 +66,15 @@ export function About() {
       if (data.error === "notOnFile") {
         setStep("email")
         setCode("")
-        setFormError("This email address is not on file as a tenant, owner, or association employee.")
+        setFormError("notOnFile")
         return
       }
       if (!response.ok) throw new Error("send")
       setCode("")
       setStep("code")
-      setNotice(renewing ? "A new code was sent to that inbox." : "A code was sent to that inbox.")
+      setNotice(renewing ? "resent" : "sent")
     } catch {
-      setFormError("The code could not be sent just now.")
+      setFormError("send")
     } finally {
       setBusy("")
     }
@@ -83,7 +86,7 @@ export function About() {
     const address = email.trim()
     const entered = code.replace(/\s+/g, "")
     if (!entered) {
-      setFormError("Enter the code from your email.")
+      setFormError("code")
       return
     }
     setBusy("check")
@@ -101,7 +104,7 @@ export function About() {
       setStep("open")
       setNotice("")
     } catch {
-      setFormError("That code is not right.")
+      setFormError("mismatch")
     } finally {
       setBusy("")
     }
@@ -121,17 +124,13 @@ export function About() {
   return (
     <div className="page">
       <section className="band-tight" id="resident-portal">
-        <h2>Resident Portal</h2>
-        <p>
-          Unit owners and association employees can open the building’s policies, budgets, minutes, and forms. Enter
-          the email address the association has on file. A code is sent to that inbox. The library is closed to
-          everyone else.
-        </p>
+        <h2>{page.title}</h2>
+        <p>{page.intro}</p>
 
         {step !== "open" && (
           <form className="visit-form portal-form" onSubmit={step === "code" ? openLibrary : sendCode}>
             <label className="field">
-              <span>Email</span>
+              <span>{page.email}</span>
               <input
                 type="email"
                 autoComplete="email"
@@ -141,7 +140,7 @@ export function About() {
             </label>
             {step === "code" && (
               <label className="field">
-                <span>Code</span>
+                <span>{page.code}</span>
                 <input
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -150,14 +149,14 @@ export function About() {
                 />
               </label>
             )}
-            {formError && <p className="form-error">{formError}</p>}
-            {notice && <p className="fine-print">{notice}</p>}
+            {formError && <p className="form-error">{page.errors[formError]}</p>}
+            {notice && <p className="fine-print">{page.notices[notice]}</p>}
             <button className="btn" type="submit" disabled={Boolean(busy)}>
-              {busy === "check" ? "Checking" : busy === "send" && step !== "code" ? "Sending" : step === "code" ? "Open the library" : "Send Code"}
+              {busy === "check" ? page.checking : busy === "send" && step !== "code" ? page.sending : step === "code" ? page.open : page.send}
             </button>
             {step === "code" && (
               <button type="button" className="text-button" onClick={sendCode} disabled={Boolean(busy)}>
-                {busy === "send" ? "Sending" : "Request a new code"}
+                {busy === "send" ? page.sending : page.resend}
               </button>
             )}
           </form>
@@ -166,28 +165,28 @@ export function About() {
         {step === "open" && (
           <p>
             <button type="button" className="text-button" onClick={closeLibrary}>
-              Close the library
+              {page.close}
             </button>
           </p>
         )}
 
         {step === "open" && status === "error" && (
-          <p className="fine-print">The library could not be loaded just now. Refresh the page.</p>
+          <p className="fine-print">{page.loadError}</p>
         )}
 
         {step === "open" && status !== "loading" && categories.map((category) => {
           const files = category.files ?? []
           return (
             <article key={category.id} id={category.id} className="doc-group">
-              <h3>{category.title}</h3>
+              <h3>{copy.categories[category.id] ?? category.title}</h3>
               {files.length === 0 ? (
-                <p className="fine-print">Nothing posted in this category yet.</p>
+                <p className="fine-print">{page.empty}</p>
               ) : (
                 <ul className="doc-list">
                   {files.map((file) => (
                     <li key={file.href}>
                       <a href={file.href} target="_blank" rel="noreferrer">
-                        {file.title}
+                        {file.title === "Document" ? page.document : file.title}
                       </a>
                     </li>
                   ))}

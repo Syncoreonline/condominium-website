@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom"
 import { building } from "../data.js"
-
-const links = [
-  { to: "/about", label: "About" },
-  { to: "/neighborhood", label: "Neighborhood" },
-]
+import { useLanguage } from "../i18n/Language.jsx"
+import { LanguageSwitcher } from "./LanguageSwitcher.jsx"
 
 export function Layout() {
+  const { copy } = useLanguage()
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const links = [
+    { to: "/about", label: copy.nav.about },
+    { to: "/neighborhood", label: copy.nav.neighborhood },
+  ]
 
   useEffect(() => {
     setOpen(false)
@@ -34,32 +36,36 @@ export function Layout() {
   return (
     <>
       <a className="skip" href="#content">
-        Skip to content
+        {copy.nav.skip}
       </a>
       <header className="nav">
         <Link to="/" className="logo">
           <img src="/images/ocean-park-logo.jpg" alt="Ocean Park Condominium" />
         </Link>
-        <button
-          type="button"
-          className="nav-toggle"
-          aria-expanded={open}
-          aria-controls="site-nav"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-        <nav id="site-nav" className={open ? "site-nav open" : "site-nav"}>
-          {links.map((link) => (
-            <NavLink key={link.to} to={link.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
-              {link.label}
+        <div className="nav-tools">
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-expanded={open}
+            aria-controls="site-nav"
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? copy.nav.close : copy.nav.menu}
+          </button>
+          <nav id="site-nav" className={open ? "site-nav open" : "site-nav"}>
+            {links.map((link) => (
+              <NavLink key={link.to} to={link.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
+                {link.label}
+              </NavLink>
+            ))}
+            <NavLink to="/resident-portal">{copy.nav.portal}</NavLink>
+            <LanguageSwitcher variant="mobile" />
+            <NavLink to="/inquire" className="nav-cta">
+              {copy.nav.tour}
             </NavLink>
-          ))}
-          <NavLink to="/resident-portal">Resident Portal</NavLink>
-          <NavLink to="/inquire" className="nav-cta">
-            Book a tour
-          </NavLink>
-        </nav>
+          </nav>
+          <LanguageSwitcher variant="desktop" />
+        </div>
       </header>
       <main id="content">
         <Outlet />
@@ -75,60 +81,60 @@ export function Layout() {
             </p>
           </div>
           <div>
-            <p className="eyebrow">Front desk</p>
+            <p className="eyebrow">{copy.footer.desk}</p>
             <p>
               <a href={building.phoneHref}>{building.phone}</a>
               <br />
-              {building.desk}
+              {copy.footer.deskLine}
             </p>
             <p>
-              <strong>Property Manager</strong>
+              <strong>{copy.footer.manager}</strong>
               <br />
               Luis Tijerino
               <br />
-              Main office: <a href="tel:+13058666541">(305) 866-6541</a>
+              {copy.footer.mainOffice}: <a href="tel:+13058666541">(305) 866-6541</a>
               <br />
               <a href="mailto:Oceanpark6450@breezelinebiz.net">Oceanpark6450@breezelinebiz.net</a>
             </p>
             <p>
-              <strong>Office Hours</strong>
+              <strong>{copy.footer.hoursLabel}</strong>
               <br />
-              Monday to Friday: 9 AM - 1:30 PM
+              {copy.footer.hours}
             </p>
           </div>
           <div>
-            <p className="eyebrow">Visit</p>
+            <p className="eyebrow">{copy.footer.visit}</p>
             <p>
-              <Link to="/about">The building</Link>
+              <Link to="/about">{copy.footer.building}</Link>
               <br />
-              <Link to="/neighborhood">Neighborhood</Link>
+              <Link to="/neighborhood">{copy.nav.neighborhood}</Link>
               <br />
-              <Link to="/about">About</Link>
+              <Link to="/about">{copy.nav.about}</Link>
               <br />
-              <Link to="/resident-portal">Resident Portal</Link>
+              <Link to="/resident-portal">{copy.nav.portal}</Link>
               <br />
-              <Link to="/inquire">Book a tour</Link>
+              <Link to="/inquire">{copy.nav.tour}</Link>
             </p>
           </div>
           <div>
-            <p className="eyebrow">More</p>
+            <p className="eyebrow">{copy.footer.more}</p>
             <p>
-              <Link to="/terms">Terms of use</Link>
+              <Link to="/terms">{copy.footer.terms}</Link>
               <br />
-              <Link to="/privacy">Privacy policy</Link>
+              <Link to="/privacy">{copy.footer.privacy}</Link>
               <br />
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${building.address}, ${building.city}, ${building.state} ${building.zip}`)}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                Directions
+                {copy.footer.directions}
               </a>
             </p>
           </div>
         </div>
         <p className="footer-note">
-          Website Resident Portal developed and maintained by{" "}
+          {copy.footer.noteBefore}{" "}
           <a href="https://vestaflo.com" target="_blank" rel="noreferrer">
             VestaFlo
           </a>

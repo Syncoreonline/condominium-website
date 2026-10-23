@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { building, getResidence, residences } from "../data.js"
+import { copy as dictionaries } from "../i18n/copy.js"
+import { format, useLanguage } from "../i18n/Language.jsx"
 import { usePageTitle } from "../usePageTitle.js"
 
 const empty = {
@@ -13,7 +15,9 @@ const empty = {
 }
 
 export function Inquire() {
-  usePageTitle("Book a tour · Ocean Park Condominium")
+  const { copy } = useLanguage()
+  const page = copy.inquire
+  usePageTitle(`${page.pageTitle} · ${building.name}`)
   const [params] = useSearchParams()
   const initial = useMemo(
     () => ({
@@ -41,7 +45,8 @@ export function Inquire() {
     setSendError("")
     if (Object.keys(nextErrors).length > 0) return
     const home = getResidence(values.residence)
-    const residenceName = home ? home.name : "No plan chosen yet"
+    const english = dictionaries.en.inquire
+    const residenceName = home ? dictionaries.en.plans[home.id].name : english.noPlan
     setSending(true)
     try {
       const response = await fetch("https://formsubmit.co/ajax/frontdeskofc@gmail.com", {
@@ -52,7 +57,7 @@ export function Inquire() {
           email: values.email,
           phone: values.phone,
           plan: residenceName,
-          timing: timingLabel(values.timing),
+          timing: english.timingSent[values.timing] ?? english.timingSent["just-looking"],
           message: values.message,
           _subject: "Tour request from the Ocean Park website",
           _template: "table",
@@ -61,54 +66,53 @@ export function Inquire() {
         }),
       })
       const result = await response.json().catch(() => ({}))
-      const message = typeof result.message === "string" ? result.message : ""
-      if (!response.ok || result.success === false || result.success === "false") {
-        throw new Error(/activ/i.test(message) ? "The note could not be sent just now." : message || "The note could not be sent.")
-      }
-      setReceipt({ ...values, residenceName })
-    } catch (error) {
-      setSendError(error.message || "The note could not be sent. Try again in a moment.")
+      if (!response.ok || result.success === false || result.success === "false") throw new Error("send")
+      setReceipt(values)
+    } catch {
+      setSendError("send")
     } finally {
       setSending(false)
     }
   }
 
   if (receipt) {
+    const chosen = getResidence(receipt.residence)
+    const planName = chosen ? copy.plans[chosen.id].name : page.noPlan
     return (
       <div className="page narrow">
-        <p className="eyebrow">Noted on this page</p>
-        <h1>{`Thank you, ${receipt.name.trim().split(" ")[0]}.`}</h1>
-        <p className="lede">The front desk has your note.</p>
+        <p className="eyebrow">{page.noted}</p>
+        <h1>{format(page.thanks, { name: receipt.name.trim().split(" ")[0] })}</h1>
+        <p className="lede">{page.received}</p>
         <dl className="receipt">
           <div>
-            <dt>Name</dt>
+            <dt>{page.name}</dt>
             <dd>{receipt.name}</dd>
           </div>
           <div>
-            <dt>Email</dt>
+            <dt>{page.email}</dt>
             <dd>{receipt.email}</dd>
           </div>
           <div>
-            <dt>Phone</dt>
+            <dt>{page.phone}</dt>
             <dd>{receipt.phone}</dd>
           </div>
           <div>
-            <dt>Plan</dt>
-            <dd>{receipt.residenceName}</dd>
+            <dt>{page.plan}</dt>
+            <dd>{planName}</dd>
           </div>
           <div>
-            <dt>Timing</dt>
-            <dd>{timingLabel(receipt.timing)}</dd>
+            <dt>{page.timing}</dt>
+            <dd>{page.timingSent[receipt.timing]}</dd>
           </div>
           {receipt.message.trim() && (
             <div>
-              <dt>Note</dt>
+              <dt>{page.note}</dt>
               <dd>{receipt.message}</dd>
             </div>
           )}
         </dl>
         <Link className="btn" to="/">
-          Back home
+          {page.back}
         </Link>
       </div>
     )
@@ -117,54 +121,54 @@ export function Inquire() {
   return (
     <div className="page inquire">
       <header className="page-intro">
-        <p className="eyebrow">Front desk</p>
-        <h1>Book a tour of the building.</h1>
-        <p className="lede">
-          The front desk is staffed 24 hours. A tour covers the lobby, the heated pool, the fitness room, and the
-          clubhouse.
-        </p>
+        <p className="eyebrow">{page.eyebrow}</p>
+        <h1>{page.title}</h1>
+        <p className="lede">{page.lede}</p>
       </header>
 
       <div className="inquire-grid">
         <form className="visit-form" onSubmit={submit} noValidate>
-          <Field label="Name" error={errors.name}>
+          <Field label={page.name} error={errors.name && page.errors[errors.name]}>
             <input name="name" autoComplete="name" value={values.name} onChange={update} />
           </Field>
-          <Field label="Email" error={errors.email}>
+          <Field label={page.email} error={errors.email && page.errors[errors.email]}>
             <input name="email" type="email" autoComplete="email" value={values.email} onChange={update} />
           </Field>
-          <Field label="Phone" error={errors.phone}>
+          <Field label={page.phone} error={errors.phone && page.errors[errors.phone]}>
             <input name="phone" type="tel" autoComplete="tel" value={values.phone} onChange={update} />
           </Field>
-          <Field label="Plan">
+          <Field label={page.plan}>
             <select name="residence" value={values.residence} onChange={update}>
-              <option value="">Not sure yet</option>
-              {residences.map((home) => (
-                <option key={home.id} value={home.id}>
-                  {home.name} · {home.sqftLabel}
-                </option>
-              ))}
+              <option value="">{page.unsure}</option>
+              {residences.map((home) => {
+                const plan = copy.plans[home.id]
+                return (
+                  <option key={home.id} value={home.id}>
+                    {plan.name} · {plan.sqft}
+                  </option>
+                )
+              })}
             </select>
           </Field>
-          <Field label="Timing">
+          <Field label={page.timing}>
             <select name="timing" value={values.timing} onChange={update}>
-              <option value="immediately">As soon as I can</option>
-              <option value="1-3">In the next three months</option>
-              <option value="3-6">Three to six months</option>
-              <option value="just-looking">I am just looking</option>
+              <option value="immediately">{page.options.immediately}</option>
+              <option value="1-3">{page.options["1-3"]}</option>
+              <option value="3-6">{page.options["3-6"]}</option>
+              <option value="just-looking">{page.options["just-looking"]}</option>
             </select>
           </Field>
-          <Field label="Anything the desk should know">
+          <Field label={page.message}>
             <textarea name="message" rows="4" value={values.message} onChange={update} />
           </Field>
           <button className="btn" type="submit" disabled={sending}>
-            {sending ? "Sending" : "Send the note"}
+            {sending ? page.sending : page.send}
           </button>
-          {sendError && <p className="fine-print">{sendError}</p>}
+          {sendError && <p className="fine-print">{page.sendError}</p>}
         </form>
 
         <aside className="visit-card">
-          <h2>The building</h2>
+          <h2>{page.asideTitle}</h2>
           <p>
             {building.address}
             <br />
@@ -173,13 +177,10 @@ export function Inquire() {
           <p>
             <a href={building.phoneHref}>{building.phone}</a>
             <br />
-            {building.desk}
+            {copy.footer.deskLine}
           </p>
-          <h3>What a tour covers</h3>
-          <p>
-            Lobby, heated pool, fitness center, and clubhouse. The garage is secured, with one or two assigned spaces
-            per home. The desk is staffed through the night.
-          </p>
+          <h3>{page.tourTitle}</h3>
+          <p>{page.tourBody}</p>
         </aside>
       </div>
     </div>
@@ -198,15 +199,8 @@ function Field({ label, error, children }) {
 
 function validate(values) {
   const errors = {}
-  if (!values.name.trim()) errors.name = "Enter your name."
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = "Enter a valid email."
-  if (values.phone.replace(/\D/g, "").length < 10) errors.phone = "Enter a phone number, including the area code."
+  if (!values.name.trim()) errors.name = "name"
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = "email"
+  if (values.phone.replace(/\D/g, "").length < 10) errors.phone = "phone"
   return errors
-}
-
-function timingLabel(value) {
-  if (value === "immediately") return "As soon as possible"
-  if (value === "1-3") return "In the next three months"
-  if (value === "3-6") return "Three to six months"
-  return "Just looking"
 }

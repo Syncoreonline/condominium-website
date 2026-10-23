@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom"
+import { building } from "../data.js"
+import { useLanguage } from "../i18n/Language.jsx"
 import { usePageTitle } from "../usePageTitle.js"
 
 export function NotFound() {
-  usePageTitle("Page not found · Ocean Park Condominium")
+  const { copy } = useLanguage()
+  usePageTitle(`${copy.missing.pageTitle} · ${building.name}`)
   return (
     <div className="page narrow">
-      <h1>That page is not in the building.</h1>
-      <p>Start again from the front door.</p>
+      <h1>{copy.missing.title}</h1>
+      <p>{copy.missing.body}</p>
       <Link className="btn" to="/">
-        Back home
+        {copy.missing.back}
       </Link>
     </div>
   )

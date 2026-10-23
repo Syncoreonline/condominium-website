@@ -154,6 +154,68 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 0.4rem 0.8rem;
 }
 
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.lang-switch { position: relative; }
+.lang-switch-mobile { display: none; }
+
+.lang-world {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.lang-menu {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.lang-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 11rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.lang-list button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.lang-list button[aria-selected="true"] {
+  font-weight: 600;
+  background: var(--paper-deep);
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(300px, 0.92fr) 1.15fr;
@@ -826,6 +888,29 @@ a.card:hover img { transform: scale(1.04); }
   .site-nav.open { display: flex; z-index: 30; }
   .site-nav a { font-size: 1.6rem; font-family: Fraunces, Georgia, serif; }
   .nav-cta { border: 0; padding: 0; border-radius: 0; }
+
+  .lang-switch-desktop { display: none; }
+  .lang-switch-mobile { display: block; }
+  .lang-menu {
+    font-size: 1.6rem;
+    font-family: Fraunces, Georgia, serif;
+    letter-spacing: -0.03em;
+  }
+  .lang-switch-mobile .lang-list {
+    position: static;
+    min-width: 0;
+    margin-top: 0.15rem;
+    padding: 0.15rem 0 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .lang-switch-mobile .lang-list button {
+    font-family: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 640px) {

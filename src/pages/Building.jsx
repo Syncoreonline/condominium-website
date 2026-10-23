@@ -1,95 +1,72 @@
 import { Link } from "react-router-dom"
 import { amenities, building } from "../data.js"
+import { format, useLanguage } from "../i18n/Language.jsx"
 import { usePageTitle } from "../usePageTitle.js"
 
 export function Building() {
-  usePageTitle(`About · ${building.name}`)
+  const { copy } = useLanguage()
+  const page = copy.about
+  usePageTitle(`${page.pageTitle} · ${building.name}`)
 
   return (
     <div className="page">
       <header className="page-intro">
-        <h1>About</h1>
-        <p className="lede">
-          Ocean Park Condominium is {building.homes} residences in a {building.stories}-story oceanfront building at{" "}
-          {building.address}, developed in {building.year}. Policies, budgets, minutes, and forms are in the resident
-          portal.
-        </p>
+        <h1>{page.title}</h1>
+        <p className="lede">{format(page.lede, building)}</p>
       </header>
 
       <section className="split band-tight">
         <div>
-          <h2>North Shore, on Collins Avenue.</h2>
+          <h2>{page.placeTitle}</h2>
+          <p>{format(page.placeBody, building)}</p>
           <p>
-            {building.architect} designed the tower. The facade is mostly white, with a regular pattern of windows.
-            Residents have a balcony, ocean views, a heated pool, a fitness center, a clubhouse, and one or two
-            assigned spaces in the secured garage.
-          </p>
-          <p>
-            An on-site manager and a 24-hour front desk look after the lobby. The desk is at{" "}
-            <a href={building.phoneHref}>{building.phone}</a>. Pets are allowed, with restrictions and a size limit.
+            {page.deskBefore} <a href={building.phoneHref}>{building.phone}</a>. {page.pets}
           </p>
           <p>
             <Link className="text-link" to="/about#in-the-building">
-              How the building works
+              {page.works}
             </Link>
           </p>
         </div>
         <figure className="frame">
-          <img
-            className="photo-park"
-            src="/images/ocean-park.jpg"
-            alt="The park in front of the condominium: palms, a sandy path, the beach, and the Atlantic, with the building along the right edge."
-          />
-          <figcaption>Ocean Park Condominium, from the park</figcaption>
+          <img className="photo-park" src="/images/ocean-park.jpg" alt={page.parkAlt} />
+          <figcaption>{page.parkCaption}</figcaption>
         </figure>
       </section>
 
       <section className="band-tight" id="in-the-building">
         <div className="section-head">
-          <p className="eyebrow">In the building</p>
-          <h2>Pool, a gym, a secured garage, and a desk that stays open.</h2>
+          <p className="eyebrow">{page.insideEyebrow}</p>
+          <h2>{page.insideTitle}</h2>
         </div>
         <ol className="amenity-list">
-          {amenities.map((item, index) => (
-            <li key={item.title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </li>
-          ))}
+          {amenities.map((item, index) => {
+            const label = copy.amenities[item.title] ?? item
+            return (
+              <li key={item.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{label.title}</h3>
+                  <p>{label.text}</p>
+                </div>
+              </li>
+            )
+          })}
         </ol>
       </section>
 
       <section className="split band-tight">
         <div>
-          <h2>Inside the residences</h2>
-          <p>
-            Studios are about 700 square feet with one bathroom. One-bedrooms run from 630 to 1,380 square feet, with
-            one or two bathrooms. They often have stainless steel appliances, granite countertops, and impact windows
-            and doors.
-          </p>
-          <p>
-            Two-bedrooms run from 1,006 to 1,380 square feet, with one to two and a half bathrooms, ocean terraces,
-            and finishes such as travertine and, in some homes, smart-home features.
-            Three-bedrooms run from 1,006 to 2,200 square feet, with two to four bathrooms, flow-through porcelain
-            tile, and views of the ocean and the skyline.
-          </p>
-          <p>
-            Residences have a balcony and ocean views. Many also have a walk-in closet, a washer and dryer in the home,
-            and smart lighting. The building has its own laundry and community storage. Those interior details vary.
-          </p>
+          <h2>{page.homesTitle}</h2>
+          <p>{page.homesOne}</p>
+          <p>{page.homesTwo}</p>
+          <p>{page.homesThree}</p>
         </div>
         <figure className="frame">
-          <img
-            src="/images/residence-kitchen.jpg"
-            alt="A kitchen with white cabinets and a dark counter, opening to a living room and the ocean."
-          />
-          <figcaption>Finishes in the larger plans run to stone and a full kitchen</figcaption>
+          <img src="/images/residence-kitchen.jpg" alt={page.kitchenAlt} />
+          <figcaption>{page.kitchenCaption}</figcaption>
         </figure>
       </section>
-
     </div>
   )
 }
