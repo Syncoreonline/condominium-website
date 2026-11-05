@@ -9,6 +9,7 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
   const links = [
+    { to: "/", label: copy.nav.home, end: true },
     { to: "/about", label: copy.nav.about },
     { to: "/neighborhood", label: copy.nav.neighborhood },
   ]
@@ -54,7 +55,7 @@ export function Layout() {
           </button>
           <nav id="site-nav" className={open ? "site-nav open" : "site-nav"}>
             {links.map((link) => (
-              <NavLink key={link.to} to={link.to} className={({ isActive }) => (isActive ? "active" : undefined)}>
+              <NavLink key={link.to} to={link.to} end={link.end} className={({ isActive }) => (isActive ? "active" : undefined)}>
                 {link.label}
               </NavLink>
             ))}
@@ -105,6 +106,8 @@ export function Layout() {
           <div>
             <p className="eyebrow">{copy.footer.visit}</p>
             <p>
+              <Link to="/">{copy.nav.home}</Link>
+              <br />
               <Link to="/about">{copy.footer.building}</Link>
               <br />
               <Link to="/neighborhood">{copy.nav.neighborhood}</Link>

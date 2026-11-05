@@ -7,6 +7,7 @@ export const en = {
     skip: "Skip to content",
     menu: "Menu",
     close: "Close",
+    home: "Home",
     about: "About",
     neighborhood: "Neighborhood",
     portal: "Resident Portal",

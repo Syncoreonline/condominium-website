@@ -7,6 +7,7 @@ export const es = {
     skip: "Saltar al contenido",
     menu: "Menú",
     close: "Cerrar",
+    home: "Inicio",
     about: "Acerca de",
     neighborhood: "El vecindario",
     portal: "Portal de residentes",
