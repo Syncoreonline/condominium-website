@@ -330,7 +330,7 @@ export const es = {
     document: "Documento",
     errors: {
       email: "Escriba el correo que la asociación tiene en archivo.",
-      notOnFile: "Este correo no está en archivo como inquilino, propietario o empleado de la asociación.",
+      notOnFile: "Este correo no está en archivo como propietario o empleado de la asociación.",
       send: "El código no se pudo enviar en este momento.",
       code: "Escriba el código de su correo.",
       mismatch: "Ese código no es correcto.",
@@ -504,7 +504,7 @@ export const es = {
             "La biblioteca es la sección de documentos de la página Acerca de. Enumera los archivos de la asociación por categoría, incluidos seguro, presupuestos, informes financieros, documentos de gobierno, actas, solicitudes de mudanza, inspecciones, formularios de reserva, cartas de satisfacción, cuotas especiales y formularios de modificación de unidad. La lista y los archivos no se muestran hasta que se acepta un código.",
           ],
           [
-            "Para pedir un código, escribe un correo. El sitio pregunta al sistema de recepción VestaFlo de la asociación si esa dirección pertenece a un inquilino, propietario o empleado de la asociación aprobado para este edificio. Si es así, VestaFlo envía un código numérico de un solo uso a esa bandeja. El código vence a los 15 minutos y funciona una vez. Puede pedir un código nuevo desde la misma página. Si la dirección no está en archivo, o si la cuenta no está aprobada, no se envía ningún código, y la página lo dice.",
+            "Para pedir un código, escribe un correo. El sitio pregunta al sistema de recepción VestaFlo de la asociación si esa dirección pertenece a un propietario o empleado de la asociación aprobado para este edificio. Si es así, VestaFlo envía un código numérico de un solo uso a esa bandeja. El código vence a los 15 minutos y funciona una vez. Puede pedir un código nuevo desde la misma página. Si la dirección no está en archivo, o si la cuenta no está aprobada, no se envía ningún código, y la página lo dice.",
           ],
           [
             "Después de escribir un código válido, esta pestaña del navegador guarda el correo y la hora en que vence la sesión de la biblioteca. No guarda el código. La sesión dura hasta 12 horas. Termina antes si elige “Cerrar la biblioteca” o si cierra la pestaña. Abrir una pestaña nueva empieza de nuevo y vuelve a pedir un código. Mientras la sesión está abierta, la página pide la lista de documentos a VestaFlo y muestra cada archivo en su categoría. Abrir un archivo lo carga desde ese mismo sistema de recepción para que pueda leerlo.",

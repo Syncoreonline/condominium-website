@@ -330,7 +330,7 @@ export const en = {
     document: "Document",
     errors: {
       email: "Enter the email address the association has on file.",
-      notOnFile: "This email address is not on file as a tenant, owner, or association employee.",
+      notOnFile: "This email address is not on file as an owner or association employee.",
       send: "The code could not be sent just now.",
       code: "Enter the code from your email.",
       mismatch: "That code is not right.",
@@ -504,7 +504,7 @@ export const en = {
             "The library is the document section of the About page. It lists association files by category, including insurance, budgets, financial reports, governing documents, minutes, move-in applications, inspections, reservation forms, satisfaction letters, special assessments, and unit modification forms. The list and the files are not shown until a code is accepted.",
           ],
           [
-            "To request a code, you enter an email address. The site asks the association’s VestaFlo desk system whether that address belongs to an approved tenant, owner, or association employee for this building. If it does, VestaFlo emails a one-time numeric code to that inbox. The code expires after 15 minutes and works once. You can request a new code from the same page. If the address is not on file, or if the account is not approved, no code is sent, and the page says so.",
+            "To request a code, you enter an email address. The site asks the association’s VestaFlo desk system whether that address belongs to an approved owner or association employee for this building. If it does, VestaFlo emails a one-time numeric code to that inbox. The code expires after 15 minutes and works once. You can request a new code from the same page. If the address is not on file, or if the account is not approved, no code is sent, and the page says so.",
           ],
           [
             "After you enter a valid code, this browser tab stores the email address and the time the library session expires. It does not store the code. The session lasts up to 12 hours. It ends sooner if you choose “Close the library” or if you close the tab. Opening a new tab starts over and asks for a code again. While the session is open, the page requests the document list from VestaFlo and shows each file in its category. Opening a file loads it from that same desk system so you can read it.",
