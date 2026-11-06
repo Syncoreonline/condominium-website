@@ -222,7 +222,7 @@ function mergeDocuments(localCategories, remoteDocuments) {
       .map((document) => ({
         name: document.fileName || document.id,
         title: document.name || document.fileName || "Document",
-        href: `https://app.vestaflo.com/api/public/compliance-documents/${encodeURIComponent(document.id)}/file?condominium=ocean-park`,
+        href: `/library/${encodeURIComponent(document.id)}`,
         mimeType: document.mimeType || "application/pdf",
       }))
     return { ...category, files: [...remote, ...(local?.files ?? [])] }

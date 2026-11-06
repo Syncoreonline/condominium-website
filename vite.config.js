@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url"
 import { defineConfig, loadEnv } from "vite"
 import react from "@vitejs/plugin-react"
 import { installDocumentRoutes, writeIndex } from "./server/documents.js"
+import { installLibraryRoute } from "./server/library.js"
 
 const root = path.dirname(fileURLToPath(import.meta.url))
 
@@ -10,12 +11,14 @@ function documentsPlugin() {
   return {
     name: "ocean-park-documents",
     configureServer(server) {
+      installLibraryRoute(server.middlewares)
       installDocumentRoutes(server.middlewares, {
         publicDir: path.join(root, "public"),
         code: loadEnv(server.config.mode, root, "").PORTAL_CODE || "",
       })
     },
     configurePreviewServer(server) {
+      installLibraryRoute(server.middlewares)
       installDocumentRoutes(server.middlewares, {
         publicDir: path.join(root, "dist"),
         mirrorDir: path.join(root, "public"),
