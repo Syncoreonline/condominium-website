@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Layout } from "./components/Layout.jsx"
 import { About } from "./pages/About.jsx"
+import { Apply } from "./pages/Apply.jsx"
 import { Building } from "./pages/Building.jsx"
 import { Home } from "./pages/Home.jsx"
 import { Portal } from "./pages/Portal.jsx"
@@ -12,6 +13,7 @@ import { Terms } from "./pages/Terms.jsx"
 export default function App() {
   return (
     <Routes>
+      <Route path="apply/:token" element={<Apply />} />
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<Building />} />

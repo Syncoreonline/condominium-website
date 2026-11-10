@@ -364,6 +364,12 @@ export const en = {
     body: "Start again from the front door.",
     back: "Back home",
   },
+  apply: {
+    pageTitle: "Residency application",
+    title: "Opening your application.",
+    body: "You are being taken to the secure Ocean Park residency form.",
+    open: "Open the form",
+  },
   terms: {
     pageTitle: "Terms of use",
     eyebrow: "Terms of use",

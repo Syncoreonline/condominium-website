@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/apply/:token",
+      "destination": "https://app.vestaflo.com/apply/:token",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/library/:id", "destination": "/api/library/:id" },
     { "source": "/(.*)", "destination": "/index.html" }

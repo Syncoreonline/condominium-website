@@ -364,6 +364,12 @@ export const es = {
     body: "Empiece de nuevo desde la puerta principal.",
     back: "Volver al inicio",
   },
+  apply: {
+    pageTitle: "Solicitud de residencia",
+    title: "Abriendo su solicitud.",
+    body: "Lo estamos llevando al formulario seguro de residencia de Ocean Park.",
+    open: "Abrir el formulario",
+  },
   terms: {
     pageTitle: "Términos de uso",
     eyebrow: "Términos de uso",
